@@ -5,8 +5,20 @@
 #define GET_BIT(x, i) (((x) >> (i)) & 1)
 #define SET_BIT(x, i, b) ((x) |= (b << (i)))
 #define BOOL2STR(b) ((b) ? "true" : "false")
+#define UINT4_MAX 15 
 
 bool overflow_flag = false;
+
+typedef uint32_t(*integer_adder_fnptr)(uint32_t, uint32_t);
+
+typedef struct test_data_s test_data_t;
+
+struct test_data_s
+{
+	integer_adder_fnptr adder;
+	uint32_t a;
+	uint32_t b;
+};
 
 void full_bit_adder(uint32_t a, uint32_t b, uint32_t cin, uint32_t *s, uint32_t *cout)
 {
@@ -53,12 +65,22 @@ uint32_t dword_adder(uint32_t a, uint32_t b)
 	return binary_adder(a, b, 32);
 }
 
+void test_adder(test_data_t test)
+{
+	uint32_t sum = test.adder(test.a, test.b);
+	printf("%d + %d = %d, OF = %s\n", test.a, test.b, sum, BOOL2STR(overflow_flag));
+}
+
 
 
 int main()
 {
-	printf("%d + %d = %d, overflow_flag = %s\n", 2, 14, nibble_adder(2, 14), BOOL2STR(overflow_flag));
-	printf("%d + %d = %d, overflow_flag = %s\n", 2, 254, byte_adder(2, 254), BOOL2STR(overflow_flag));
-	printf("%d + %d = %d, overflow_flag = %s\n", 2, 254, word_adder(2, 254), BOOL2STR(overflow_flag));
+	test_data_t tests[] = {
+		// Overflow tests
+		(test_data_t) { nibble_adder, 1, UINT4_MAX },
+		(test_data_t) { byte_adder, 1, UINT8_MAX },
+		(test_data_t) { word_adder, 1, UINT16_MAX },
+		(test_data_t) { dword_adder, 1, UINT32_MAX },
+	};
 	return 0;
 }
