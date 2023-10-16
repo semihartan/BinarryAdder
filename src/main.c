@@ -36,7 +36,7 @@ uint32_t binary_adder(uint32_t a, uint32_t b, uint32_t operand_size)
 	return sum;
 }
 
-uint32_t nible_adder(uint32_t a, uint32_t b)
+uint32_t nibble_adder(uint32_t a, uint32_t b)
 {
 	return binary_adder(a, b, 4);
 }
@@ -57,7 +57,7 @@ uint32_t dword_adder(uint32_t a, uint32_t b)
 
 int main()
 {
-	printf("%d + %d = %d, overflow_flag = %s\n", 2, 14, nible_adder(2, 14), BOOL2STR(overflow_flag));
+	printf("%d + %d = %d, overflow_flag = %s\n", 2, 14, nibble_adder(2, 14), BOOL2STR(overflow_flag));
 	printf("%d + %d = %d, overflow_flag = %s\n", 2, 254, byte_adder(2, 254), BOOL2STR(overflow_flag));
 	printf("%d + %d = %d, overflow_flag = %s\n", 2, 254, word_adder(2, 254), BOOL2STR(overflow_flag));
 	return 0;
