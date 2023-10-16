@@ -68,19 +68,44 @@ uint32_t dword_adder(uint32_t a, uint32_t b)
 void test_adder(test_data_t test)
 {
 	uint32_t sum = test.adder(test.a, test.b);
-	printf("%d + %d = %d, OF = %s\n", test.a, test.b, sum, BOOL2STR(overflow_flag));
+	printf("%u + %u = %u, OF = %s\n", test.a, test.b, sum, BOOL2STR(overflow_flag));
 }
 
 
 
 int main()
 {
-	test_data_t tests[] = {
+	test_data_t tests[8] = {
 		// Overflow tests
-		(test_data_t) { nibble_adder, 1, UINT4_MAX },
-		(test_data_t) { byte_adder, 1, UINT8_MAX },
-		(test_data_t) { word_adder, 1, UINT16_MAX },
-		(test_data_t) { dword_adder, 1, UINT32_MAX },
+		(test_data_t) {
+ nibble_adder, 1, UINT4_MAX
+},
+(test_data_t) {
+byte_adder, 1, UINT8_MAX
+},
+(test_data_t) {
+word_adder, 1, UINT16_MAX
+},
+(test_data_t) {
+dword_adder, 1, UINT32_MAX
+},
+
+(test_data_t) {
+nibble_adder, 1, UINT4_MAX - 1
+},
+(test_data_t) {
+byte_adder, 1, UINT8_MAX - 1
+},
+(test_data_t) {
+word_adder, 1, UINT16_MAX - 1
+},
+(test_data_t) {
+dword_adder, 1, UINT32_MAX - 1
+}
 	};
+	for (size_t i = 0; i < sizeof(tests)/sizeof(test_data_t); i++)
+	{
+		test_adder(tests[i]);
+	}
 	return 0;
 }
