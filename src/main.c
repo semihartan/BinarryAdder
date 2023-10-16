@@ -4,7 +4,7 @@
 
 #define GET_BIT(x, i) (((x) >> (i)) & 1)
 #define SET_BIT(x, i, b) ((x) |= (b << (i)))
-
+#define BOOL2STR(b) ((b) ? "true" : "false")
 
 bool overflow_flag = false;
 
@@ -57,8 +57,8 @@ uint32_t dword_adder(uint32_t a, uint32_t b)
 
 int main()
 {
-	printf("%d + %d = %d, overflow_flag = %d\n", 2, 3, nible_adder(2, 3), overflow_flag);
-	printf("%d + %d = %d, overflow_flag = %d\n", 2, 254, byte_adder(2, 254), overflow_flag);
-	printf("%d + %d = %d, overflow_flag = %d\n", 2, 254, word_adder(2, 254), overflow_flag);
+	printf("%d + %d = %d, overflow_flag = %s\n", 2, 14, nible_adder(2, 14), BOOL2STR(overflow_flag));
+	printf("%d + %d = %d, overflow_flag = %s\n", 2, 254, byte_adder(2, 254), BOOL2STR(overflow_flag));
+	printf("%d + %d = %d, overflow_flag = %s\n", 2, 254, word_adder(2, 254), BOOL2STR(overflow_flag));
 	return 0;
 }
